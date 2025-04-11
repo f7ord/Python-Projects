@@ -7,6 +7,7 @@ def get_args():
     parser = argparse.ArgumentParser(description="Picnic Program")
     parser.add_argument('items', metavar='items', nargs='+', help='Item(s) to bring')
     parser.add_argument('-s', '--sorted', action='store_true', help='Sort the items to bring, if present')
+    parser.add_argument('-c', '--comma', action='store_true', help='If present, print without the Oxford comma.')
     return parser.parse_args()
 
 
@@ -22,7 +23,10 @@ def main():
     elif len(items) == 2:
         print(f'You are bringing {items[0]} and {items[1]}.')
     else:
-        print(f"You are bringing {', '.join(items[:-1])}, and {items[-1]}.")
+        if args.comma:
+            print(f"You are bringing {', '.join(items[:-1])} and {items[-1]}.")
+        else:
+            print(f"You are bringing {', '.join(items[:-1])}, and {items[-1]}.")
 
 
 if __name__ == '__main__':
