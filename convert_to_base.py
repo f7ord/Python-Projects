@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 
 #TODO: make it work for higher bases like 16
 
