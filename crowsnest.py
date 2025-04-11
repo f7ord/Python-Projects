@@ -11,7 +11,9 @@ def get_args():
 
 def main():
     args = get_args()
+    word = args.word
     article = 'an' if args.word[0].lower() in 'aeiou' else 'a'
+    article = article.title() if word[0].isupper() else article
     print(f'Ahoy, Captain, {article} {args.word} off the larboard bow!')
 
 
