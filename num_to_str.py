@@ -6,7 +6,7 @@ import argparse
 
 def get_args():
     """Get the command-line arguments"""
-    parser = argparse.ArgumentParser(description="Jump the Five")
+    parser = argparse.ArgumentParser(description="Convert num to string")
     parser.add_argument("text", help="The text to encode")
     return parser.parse_args()
 
