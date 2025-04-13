@@ -16,7 +16,7 @@ def main():
 
     if os.path.isfile(text):
         content = open(text).read().rstrip()
-        print(content)
+        print(content.upper())
     else:
         print(text.upper())
 
