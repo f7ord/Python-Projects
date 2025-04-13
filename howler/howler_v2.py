@@ -37,7 +37,7 @@ def get_args():
 
 def main():
     args = get_args()
-    outfile = open(args.outdir, "at") if args.outdir else sys.stdout
+    outfile = open(args.outdir, "wt") if args.outdir else sys.stdout
     out_case = str.lower if args.lc else str.upper
     for f in args.text:
         for line in f:
