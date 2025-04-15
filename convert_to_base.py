@@ -33,9 +33,9 @@ def base_convert(num: int, b: int):
     """
     ans = []
     while num:
-        ans.insert(0, num % b)
+        ans.append(num % b)
         num = num // b
-    return "".join(str(i) for i in ans)
+    return "".join(str(i) for i in ans[::-1])
 
 
 def main():
