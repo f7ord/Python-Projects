@@ -25,15 +25,27 @@ def get_args():
         action="store_true",
         help="Display $ at end of each line"
     )
+    parser.add_argument(
+        "--number",
+        "-n",
+        action="store_true",
+        help="Number all output lines"
+    )
+
     return parser.parse_args()
 
 
 def main():
     args = get_args()
     ends = args.E
+    number = args.number
+    count = 1
 
     for f in args.file:
         for line in f:
+            if number:
+                sys.stdout.write(f"{count} ".rjust(7)+' ')
+                count += 1
             if ends:
                 sys.stdout.write(line[:-1]+"$"+"\n")
             else:
