@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
 # Count the number of times each word is seen in a document
-# add a flag to make the count case-insensitive
-# add a flag to sort the output
+
+# add a flag to sort the output k or v
 
 import argparse
 import pprint as pp
@@ -20,6 +20,12 @@ def get_args():
         type=argparse.FileType('rt'),
         help="Input file(s)",
     )
+    parser.add_argument(
+        # "--ignore-case",
+        "-c",
+        action="store_true",
+        help="Ignore the case of the words"
+    )
 
     return parser.parse_args()
 
@@ -30,7 +36,8 @@ def main():
     for fh in args.file:
         output = {}
         for line in fh:
-            for word in line.split():
+            words = [word.lower() if args.c else word for word in line.split()]
+            for word in words:
                 output[word] = output.get(word, 0) + 1
         print(fh.name.upper().center(30))
         pp.pp(output)
