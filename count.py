@@ -39,9 +39,9 @@ def main():
             words = [word.lower() if args.c else word for word in line.split()]
             for word in words:
                 output[word] = output.get(word, 0) + 1
-        print(fh.name.upper().center(30))
+        print(f"==> {fh.name} <==")
         pp.pp(output)
-        print()
+        print() if args.file.index(fh) != (len(args.file)-1) else ''
 
 
 if __name__ == "__main__":
