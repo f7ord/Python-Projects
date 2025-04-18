@@ -24,7 +24,7 @@ def get_args():
         "-n",
         default=10,
         type=int,
-        help="Print the first n lines (default: 10)",
+        help="Print the first n lines (default: 10); if negative, print all but the last n lines of each file",
     )
 
     return parser.parse_args()
@@ -36,15 +36,23 @@ def main():
     n = args.lines
     
     for fh in files:
-        if os.path.isfile(fh.name):
-            print(f"==> {fh.name} <==")
+        lines = fh.readlines()
+        num_lines = len(lines) - 1
         count = 0
-        for line in fh:
-            if count < n:
-                print(line.rstrip())
-                count += 1
-        print() if files.index(fh) != (len(files)-1) else ''        
-    
+
+        if len(files) > 1 and os.path.isfile(fh.name):
+            print(f"==> {fh.name} <==")
+        if n > 0:
+            for line in lines:
+                if count < n:
+                    print(line.rstrip())
+                    count += 1
+        else:
+            for line in lines:
+                if count <= (num_lines + n):
+                    print(line.rstrip())
+                    count += 1
+        print() if fh.name != files[-1].name else ''
 
 if __name__ == "__main__":
     main()
