@@ -25,6 +25,13 @@ def get_args():
         default=10,
         help="Print the first n lines (default: 10); if negative, print all but the last n lines of each file",
     )
+    parser.add_argument(
+        "--quiet",
+        "--silent",
+        "-q",
+        action="store_true",
+        help="Don't print headers giving file names"
+    )
 
     return parser.parse_args()
 
@@ -39,8 +46,10 @@ def main():
         num_lines = len(lines) - 1
         count = 0
 
-        if len(files) > 1 and os.path.isfile(fh.name):
-            print(f"==> {fh.name} <==")
+        if not args.quiet:
+            if len(files) > 1 and os.path.isfile(fh.name):
+                print(f"==> {fh.name} <==")
+        
         if int(n) >= 0 and n[0] != '-':
             for line in lines:
                 if count < int(n):
