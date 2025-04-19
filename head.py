@@ -23,7 +23,6 @@ def get_args():
         "--lines",
         "-n",
         default=10,
-        type=int,
         help="Print the first n lines (default: 10); if negative, print all but the last n lines of each file",
     )
 
@@ -42,17 +41,18 @@ def main():
 
         if len(files) > 1 and os.path.isfile(fh.name):
             print(f"==> {fh.name} <==")
-        if n > 0:
+        if int(n) >= 0 and n[0] != '-':
             for line in lines:
-                if count < n:
+                if count < int(n):
                     print(line.rstrip())
                     count += 1
         else:
             for line in lines:
-                if count <= (num_lines + n):
+                if count <= (num_lines + int(n)):
                     print(line.rstrip())
                     count += 1
         print() if fh.name != files[-1].name else ''
+
 
 if __name__ == "__main__":
     main()
