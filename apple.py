@@ -49,6 +49,7 @@ def main():
             if not args.collapse:
                 print(line.translate(str.maketrans('aeiouAEIOU', args.vowel * 5 + args.vowel.upper() * 5)), end="")
             else:
+                # transform the first char of the line
                 result = line[0].translate(str.maketrans(vowels, args.vowel*5 + args.vowel.upper()*5))
                 for char in line[1:]:
                     if result[-1] not in vowels and char in vowels:
@@ -57,7 +58,6 @@ def main():
                         result += char
                 print(result, end="")
                         
-
 
 if __name__ == "__main__":
     main()
