@@ -57,7 +57,7 @@ def main():
                     elif char not in vowels:
                         result += char
                 print(result, end="")
-                        
+        f.close()                
 
 if __name__ == "__main__":
     main()

@@ -77,6 +77,7 @@ def main():
             output += f" {fh.name}"
             total += f" total"    
             print(output)
+        fh.close()
     # print the total if more than one file is passed    
     if len(args.file) > 1:
         if not any([l,w,c]):

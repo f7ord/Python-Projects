@@ -88,6 +88,7 @@ def main():
                             nbytes += 1
         
         print() if fh.name != files[-1].name else ''
+        fh.close()
 
 
 if __name__ == "__main__":

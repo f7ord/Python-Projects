@@ -63,6 +63,7 @@ def main():
                 sys.stdout.write(line[:-1]+"$"+"\n")
             else:
                 sys.stdout.write(line)
+        f.close()
 
 
 if __name__ == '__main__':
