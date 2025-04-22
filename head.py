@@ -17,6 +17,13 @@ def get_args():
         type=argparse.FileType('rt'),
         help="Input file(s)"
     )
+    parser.add_argument(
+        "--quiet",
+        "--silent",
+        "-q",
+        action="store_true",
+        help="Don't print headers giving file names",
+    )
     print_group = parser.add_mutually_exclusive_group()
     print_group.add_argument(
         "--lines",
@@ -27,13 +34,6 @@ def get_args():
         "--bytes",
         "-c",
         help="Print the first c bytes of each file; if negative, print all but the last c bytes of each file",
-    )
-    parser.add_argument(
-        "--quiet",
-        "--silent",
-        "-q",
-        action="store_true",
-        help="Don't print headers giving file names",
     )
     
     return parser.parse_args()
@@ -52,9 +52,8 @@ def main():
         count = 0
 
         # print or not print file name headers
-        if not args.quiet:
-            if len(files) > 1 and os.path.isfile(fh.name):
-                print(f"==> {fh.name} <==")
+        if not args.quiet and len(files) > 1:
+            print(f"==> {fh.name} <==")
         
         # print the first n lines or all but the last n lines
         if active == "n":
