@@ -57,7 +57,7 @@ def main():
             for line in lines[n-1:]:
                 print(line.rstrip())
         else:
-            for line in lines[-n:]:
+            for line in lines[-abs(n):]:
                 print(line.rstrip())
         
         print() if file.name != files[-1].name else ''
