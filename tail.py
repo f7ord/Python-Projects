@@ -50,7 +50,7 @@ def main():
     n = int(args.lines)
    
     for file in files:
-        if not args.quiet:
+        if not args.quiet and len(files) > 1:
             print(f"==> {file.name} <==")
         lines = file.readlines()
         if start_line:
