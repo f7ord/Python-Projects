@@ -13,8 +13,22 @@ def get_args():
         description="Heap abuse"
     )
     parser.add_argument(
-        "-a",
         "--adjectives",
+        "-A",
+        type=argparse.FileType('rt'),
+        default="adjectives.txt",
+        help="The file that contains the adjectives"
+    )
+    parser.add_argument(
+        "--nouns",
+        "-N",
+        type=argparse.FileType('rt'),
+        default="nouns.txt",
+        help="The file that contains the nouns"
+    )
+    parser.add_argument(
+        "-a",
+        "--num_adjs",
         type=int,
         default=2,
         help="Number of adjectives (default: 2)"
@@ -35,37 +49,25 @@ def get_args():
     )
 
     args = parser.parse_args()
-    if args.adjectives < 1:
-        parser.error(f'--adjectives *{args.adjectives}* must be > 0')
+    if args.num_adjs < 1:
+        parser.error(f'--adjectives *{args.num_adjs}* must be > 0')
     elif args.number < 1:
         parser.error(f'--number *{args.number}* must be > 0')
+
+    args.adjectives = args.adjectives.read().split()
+    args.nouns = args.nouns.read().split()
 
     return args
 
 
 def main():
     args = get_args()
+    adjectives = args.adjectives
+    nouns = args.nouns
     random.seed(args.seed)  
 
-    adjectives = """
-    bankrupt base caterwauling corrupt cullionly detestable 
-    dishonest false filthsome filthy foolish foul gross 
-    heedless indistinguishable infected insatiate irksome 
-    lascivious lecherous loathsome lubbery old peevish rascaly
-    rotten ruinous scurilous scurvy slanderous sodden-witted 
-    thin-faced toad-spotted unmannered vile wall-eyed
-    """.split()
-
-    nouns = """
-    Judas Satan ape ass barbermonger beggar block boy braggart
-    butt carbuncle coward coxcomb cur dandy degenerate fiend 
-    fishmonger fool gull harpy jack jolthead knave liar lunatic 
-    maw milksop minion ratcatcher recreant rogue scold slave 
-    swine traitor varlet villain worm
-    """.split()
-
     for _ in range(args.number):
-        adjs = random.sample(adjectives, args.adjectives)
+        adjs = random.sample(adjectives, args.num_adjs)
         noun = random.choice(nouns)
         print(f"You {', '.join(adjs)} {noun}!")
 
