@@ -31,6 +31,12 @@ def get_args():
         type=int,
         help="Random seed (default: None)"
     )
+    parser.add_argument(
+        "-w",
+        "--words",
+        action="store_true",
+        help="Apply the mutations to randomly selected words instead of the whole string"
+    )
 
     args = parser.parse_args()
     
@@ -44,18 +50,32 @@ def get_args():
 
 
 def main():
-    args = get_args()
-    random.seed(args.seed)
-    text = args.text
-    mutations = round(len(text) * args.mutations)
-    chars = string.ascii_letters + string.punctuation
+    def mutate_string(text, n: int):
+        """
+        n is the number of chars to replace
+        Return the mutated version of the given string"""
+        result = text
+        for i in random.sample(range(len(text)), n):
+            rep_char = random.choice(chars.replace(result[i], '')) # ensures that rep_char != text[i]
+            result = result[:i] + rep_char + result[i+1:]
+        return result
     
-    for i in random.sample(range(len(text)), mutations):
-        rep_char = random.choice(chars.replace(text[i], '')) # ensures that rep_char != text[i]
-        text = text[:i] + rep_char + text[i+1:]
+    args = get_args()
+    text = args.text
+    num_mutations = round(len(text.split()) * args.mutations) if args.words else round(len(text) * args.mutations)
+    chars = string.ascii_letters + string.punctuation
+    random.seed(args.seed)
+
+    if not args.words:
+        result = mutate_string(text, num_mutations)
+    else:
+        words = text.split()
+        for i in random.sample(range(len(words)), num_mutations):
+            words[i] = mutate_string(words[i], len(words[i])) # passed n as len(words[i]) so the whole word is mutated
+        result = ' '.join(words)
 
     print(f"You said: *{args.text}*")
-    print(f"I heard: *{text}*")
+    print(f"I heard: *{result}*")
 
 
 if __name__ == "__main__":
