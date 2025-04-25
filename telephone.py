@@ -7,6 +7,7 @@ import io
 import os
 import random
 import string
+import sys
 
 
 def get_args():
@@ -37,6 +38,11 @@ def get_args():
         action="store_true",
         help="Apply the mutations to randomly selected words instead of the whole string"
     )
+    parser.add_argument(
+        "-o",
+        "--output",
+        help="Output file"
+    )
 
     args = parser.parse_args()
     
@@ -45,6 +51,8 @@ def get_args():
     
     if not 0 <= args.mutations <= 1:
         parser.error(f"--mutations *{args.mutations}* must be `0 <= mutations <= 1`")
+    
+    args.output = open(args.output, 'w') if args.output else sys.stdout
 
     return args
 
@@ -75,7 +83,7 @@ def main():
         result = ' '.join(words)
 
     print(f"You said: *{args.text}*")
-    print(f"I heard: *{result}*")
+    print(f"I heard: *{result}*", file=args.output)
 
 
 if __name__ == "__main__":
