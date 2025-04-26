@@ -43,6 +43,12 @@ def get_args():
         "--output",
         help="Output file"
     )
+    parser.add_argument(
+        "-c",
+        "--chars",
+        action="store_true",
+        help="Limit the replacements to character values only (no punctuations)"
+    )
 
     args = parser.parse_args()
     
@@ -63,6 +69,8 @@ def main():
         n is the number of chars to replace
         Return the mutated version of the given string"""
         result = text
+        chars = string.ascii_letters if args.chars else string.ascii_letters + string.punctuation
+        
         for i in random.sample(range(len(text)), n):
             rep_char = random.choice(chars.replace(result[i], '')) # ensures that rep_char != text[i]
             result = result[:i] + rep_char + result[i+1:]
@@ -71,7 +79,6 @@ def main():
     args = get_args()
     text = args.text
     num_mutations = round(len(text.split()) * args.mutations) if args.words else round(len(text) * args.mutations)
-    chars = string.ascii_letters + string.punctuation
     random.seed(args.seed)
 
     if not args.words:
