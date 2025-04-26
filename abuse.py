@@ -50,7 +50,7 @@ def get_args():
 
     args = parser.parse_args()
     if args.num_adjs < 1:
-        parser.error(f'--adjectives *{args.num_adjs}* must be > 0')
+        parser.error(f'--num_adjs *{args.num_adjs}* must be > 0')
     elif args.number < 1:
         parser.error(f'--number *{args.number}* must be > 0')
 
