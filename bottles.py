@@ -19,10 +19,19 @@ def get_args():
         action="store_true",
         help="Reverse the order of the verses, count up instead of down"
     )
+    parser.add_argument(
+        "-s",
+        "--step",
+        type=int,
+        default=1,
+        help="Skip numbers by STEPs"
+    )
 
     args = parser.parse_args()
     if args.num < 1:
         parser.error(f"--num *{args.num}* must be greater than 0")
+    if args.step < 1:
+        parser.error(f"--step *{args.step}* must be greater than 0")
 
     return parser.parse_args()
 
@@ -45,8 +54,9 @@ def main():
     args = get_args()
     num = args.num
     reverse = args.reverse
-    
-    step = 1 if reverse else -1
+    step = args.step
+
+    step = step if reverse else -step
     start = 1 if reverse else num
     stop = num+1 if reverse else 0
 
