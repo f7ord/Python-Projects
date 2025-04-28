@@ -13,6 +13,12 @@ def get_args():
         default=10,
         help="Print all the verses from NUM down do 1 (default: 10)"
     )
+    parser.add_argument(
+        "-r",
+        "--reverse",
+        action="store_true",
+        help="Reverse the order of the verses, count up instead of down"
+    )
 
     args = parser.parse_args()
     if args.num < 1:
@@ -23,24 +29,28 @@ def get_args():
 
 def verse(num):
     """Print a verse"""
-    bottle = 'bottles' if num > 1 else 'bottle'
+    num_less_one = num-1 if num > 1 else 'No more'
+    end = 's' if num > 1 else ''
+    end2 = '' if num_less_one == 1 else 's'
 
-    print(f"{num} {bottle} of beer on the wall,")
-    print(f"{num} {bottle} of beer,")
-    print(f"Take one down, pass it around,")
-    if num != 1:
-        bottle = 'bottles' if num-1 > 1 else 'bottle'
-        print(f"{num-1} {bottle} of beer on the wall!\n")
-    else:
-        print("No more bottles of beer on the wall!")
+    return '\n'.join([
+        f'{num} bottle{end} of beer on the wall,',
+        f'{num} bottle{end} of beer,',
+        f'Take one down, pass it around,',
+        f'{num_less_one} bottle{end2} of beer on the wall!'
+    ])
 
 
 def main():
     args = get_args()
     num = args.num
+    reverse = args.reverse
+    
+    step = 1 if reverse else -1
+    start = 1 if reverse else num
+    stop = num+1 if reverse else 0
 
-    for i in range(num, 0, -1):
-        verse(i)
+    print('\n\n'.join(map(verse, range(start, stop, step))))
 
 
 if __name__ == "__main__":
