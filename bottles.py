@@ -21,11 +21,18 @@ def get_args():
     return parser.parse_args()
 
 
-def on_the_wall(num, end=','):
+def on_the_wall(num):
+    """Print a verse"""
     bottle = 'bottles' if num > 1 else 'bottle'
-    print(f"{num} {bottle} of beer on the wall{end}")
-    if end != '!\n':
-        print(f"{num} {bottle} of beer,")
+
+    print(f"{num} {bottle} of beer on the wall,")
+    print(f"{num} {bottle} of beer,")
+    print(f"Take one down, pass it around,")
+    if num != 1:
+        bottle = 'bottles' if num-1 > 1 else 'bottle'
+        print(f"{num-1} {bottle} of beer on the wall!\n")
+    else:
+        print("No more bottles of beer on the wall!")
 
 
 def main():
@@ -34,11 +41,6 @@ def main():
 
     for i in range(num, 0, -1):
         on_the_wall(i)
-        print(f"Take one down, pass it around,")
-        if i != 1:
-            on_the_wall(i-1, end='!\n')
-        else:
-            print(f"No more bottles of beer on the wall!")
 
 
 if __name__ == "__main__":
