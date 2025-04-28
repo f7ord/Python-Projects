@@ -21,7 +21,7 @@ def get_args():
     return parser.parse_args()
 
 
-def on_the_wall(num):
+def verse(num):
     """Print a verse"""
     bottle = 'bottles' if num > 1 else 'bottle'
 
@@ -40,7 +40,7 @@ def main():
     num = args.num
 
     for i in range(num, 0, -1):
-        on_the_wall(i)
+        verse(i)
 
 
 if __name__ == "__main__":
