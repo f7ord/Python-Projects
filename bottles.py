@@ -26,6 +26,12 @@ def get_args():
         default=1,
         help="Skip numbers by STEPs"
     )
+    parser.add_argument(
+        "-t",
+        "--text",
+        action="store_true",
+        help="Replace the Arabic numbers with text"
+    )
 
     args = parser.parse_args()
     if args.num < 1:
@@ -41,6 +47,21 @@ def verse(num):
     num_less_one = num-1 if num > 1 else 'No more'
     end = 's' if num > 1 else ''
     end2 = '' if num_less_one == 1 else 's'
+    key = {
+        1: 'one',
+        2: 'two',
+        3: 'three',
+        4: 'four',
+        5: 'five',
+        6: 'six',
+        7: 'seven',
+        8: 'eight',
+        9: 'nine',
+        'No more': 'No more',
+    }
+    if get_args().text:
+        num = key[num].capitalize()
+        num_less_one = key[num_less_one].capitalize()
 
     return '\n'.join([
         f'{num} bottle{end} of beer on the wall,',
