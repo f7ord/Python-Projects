@@ -14,7 +14,7 @@ def get_args():
     parser = argparse.ArgumentParser(description="Emulate wc")
     parser.add_argument(
         'file',
-        metavar='FILE', 
+        metavar='FILE',
         nargs="*",
         default=[sys.stdin],
         type=argparse.FileType('rt'),
@@ -73,12 +73,12 @@ def main():
             if c:
                 output += f"{nb:8}"
                 total += f"{tnb:8}"
-        
+
             output += f" {fh.name}"
-            total += f" total"    
+            total += " total"
             print(output)
         fh.close()
-    # print the total if more than one file is passed    
+    # print the total if more than one file is passed
     if len(args.file) > 1:
         if not any([l,w,c]):
             print(f"{tnl:8}{tnw:8}{tnb:8} total")
