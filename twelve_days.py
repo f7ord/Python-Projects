@@ -20,16 +20,14 @@ def get_args():
     parser.add_argument(
         "-o",
         "--output",
-        help="Outfile"
+        type=argparse.FileType('wt'),
+        default=sys.stdout,
+        help="Outfile (default: STDOUT)"
     )
 
     args = parser.parse_args()
     if not 1 <= args.num <= 12:
         parser.error(f"--num {args.num} must be between 1 and 12")
-    if args.output:
-        args.output = open(args.output, 'wt', encoding='utf-8')
-    else:
-        args.output = sys.stdout
 
     return args
 
@@ -44,11 +42,11 @@ def verse(n):
         5: ['fifth', 'Five gold rings,'],
         6: ['sixth', 'Six geese a laying,'],
         7: ['seventh', 'Seven swans a swimming,'],
-        8: ['eight', 'Eight maids a milking,'],
+        8: ['eighth', 'Eight maids a milking,'],
         9: ['ninth', 'Nine ladies dancing,'],
         10: ['tenth', 'Ten lords a leaping,'],
         11: ['eleventh', 'Eleven pipers piping,'],
-        12: ['twelveth', 'Twelve drummers drumming,'],
+        12: ['twelfth', 'Twelve drummers drumming,'],
     }
 
     lines = [
@@ -77,7 +75,8 @@ def test_verse():
         'Two turtle doves,',
         'And a partridge in a pear tree.'
         ])
-    assert verse(1) == 'On the first day of Christmas,\nMy true love gave to me,\nA partridge in a pear tree.'
+    assert verse(1) == 'On the first day of Christmas,\
+\nMy true love gave to me,\nA partridge in a pear tree.'
 
 
 def main():
@@ -88,5 +87,4 @@ def main():
 
 
 if __name__ == '__main__':
-    # verse(3)
     main()
