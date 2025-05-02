@@ -3,6 +3,7 @@
 # Rhymer: Using regular expressions to create rhyming words
 
 import argparse
+import os
 import string
 import sys
 
@@ -12,16 +13,21 @@ def get_args():
     parser = argparse.ArgumentParser(description='Make rhyming *words*')
     parser.add_argument(
         "word",
-        help="A word to rhyme"
+        help="A word to rhyme; if it is a filename, the program will iterate and create the rhyming words for each word in the file"
     )
     parser.add_argument(
         "-o",
         "--output",
         type=argparse.FileType('wt'),
-        default=sys.stdin,
+        default=sys.stdout,
         help="Output file (default: STDOUT)"
     )
-    return parser.parse_args()
+    
+    args = parser.parse_args()
+    if os.path.isfile(args.word):
+        args.word = open(args.word).read().split()
+    
+    return args
 
 
 def break_word(word):
@@ -60,15 +66,26 @@ def test_break_word():
     assert break_word('123') == ('123','')
 
 
+def write_output(word, outfile=sys.stdout):
+    """Print the rhyming words (if can be done) to STDOUT or write them to the output file"""
+    if isinstance(replace(word), list):
+        print('\n'.join(replace(word)), file=outfile)
+    else:
+        print(replace(word), file=outfile)
+
+
 def main():
     args = get_args()
     word = args.word
-    
-    if type(replace(word)) == list:
-        print('\n'.join(replace(word)), file=args.output)
-    else:
-        print(replace(word), file=args.output)
-    
+
+    if isinstance(word, str):
+        write_output(word, args.output)
+    elif isinstance(word, list):
+        for w in word:
+            out = open(f'{w}.txt', 'wt')
+            write_output(w, outfile=out)
+            out.close()
+
 
 if __name__ == '__main__':
     main()
