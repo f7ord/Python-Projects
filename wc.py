@@ -74,7 +74,7 @@ def main():
                 output += f"{nb:8}"
                 total += f"{tnb:8}"
 
-            output += f" {fh.name}"
+            output += f" {fh.name}" if fh != sys.stdin else ''
             total += " total"
             print(output)
         fh.close()
