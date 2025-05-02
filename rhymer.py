@@ -4,6 +4,7 @@
 
 import argparse
 import string
+import sys
 
 
 def get_args():
@@ -12,6 +13,13 @@ def get_args():
     parser.add_argument(
         "word",
         help="A word to rhyme"
+    )
+    parser.add_argument(
+        "-o",
+        "--output",
+        type=argparse.FileType('wt'),
+        default=sys.stdin,
+        help="Output file (default: STDOUT)"
     )
     return parser.parse_args()
 
@@ -56,8 +64,11 @@ def main():
     args = get_args()
     word = args.word
     
-    print('\n'.join(replace(word))) if type(replace(word)) == list else print(replace(word))
-
+    if type(replace(word)) == list:
+        print('\n'.join(replace(word)), file=args.output)
+    else:
+        print(replace(word), file=args.output)
+    
 
 if __name__ == '__main__':
     main()
