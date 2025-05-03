@@ -35,15 +35,15 @@ def find_consonant_sounds(file):
         start = break_word(word)[0]
         if start:
             sounds.add(start)
-    return list(sounds)
+    return sorted(list(sounds))
 
 
 def main():
     args = get_args()
-    sounds = sorted(find_consonant_sounds(args.file))
+    sounds = find_consonant_sounds(args.file)
     if args.outfile == sys.stdout:
-        return sounds
-    args.outfile.write('\n'.join(sounds))
+        return len(sounds)
+    args.outfile.write('\n'.join(sounds) + '\n')
 
 
 if __name__ == '__main__':
