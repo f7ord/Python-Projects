@@ -24,12 +24,32 @@ def get_args():
         default=sys.stdout,
         help="Output file (default: STDOUT)"
     )
+    parser.add_argument(
+        "-e",
+        "--expand",
+        action="store_true",
+        help="Find all unique consonant sounds in the\
+         file and use them to expand the program's\
+         consonants"
+    )
 
     args = parser.parse_args()
     if os.path.isfile(args.word):
         args.word = open(args.word).read().split()
 
     return args
+
+
+def find_consonant_sounds(file):
+    """Find and return all unique consonant sounds in dictionary"""
+    sounds = set()
+
+    for word in file:
+        word = word.lower()
+        start = break_word(word)[0]
+        if start:
+            sounds.add(start)
+    return sorted(list(sounds))
 
 
 def break_word(word):
@@ -39,7 +59,7 @@ def break_word(word):
 
     i = 0
     while i < len(word):
-        if word[i] not in 'aeiou' and word[i].isalpha():
+        if word[i] not in 'aeiou' and word[i].isalnum():
             conso += word[i]
             i += 1
         else:
@@ -51,13 +71,16 @@ def replace(word):
     """Replace the leading consonants with all the other
     consonants from the alphabets and the given
     consonant clusters"""
-    leading, other = break_word(word)
-
     consonants = [x for x in string.ascii_lowercase if x not in 'aeiou']
     consonants.extend('bl br ch cl cr dr fl fr gl gr pl \
     pr sc sh sk sl sm sn sp st sw th tr tw thw wh wr sch\
      scr shr sph spl spr squ str thr'.split())
 
+    if get_args().expand:
+        more = find_consonant_sounds(open('dictionary.txt', 'rt'))
+        consonants.extend(more)
+
+    leading, other = break_word(word)
     if not other:  # if word is only consonants
         return f'Cannot rhyme "{word}"'
     return sorted([char + other for char in consonants if char != leading])
