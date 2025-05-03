@@ -13,7 +13,9 @@ def get_args():
     parser = argparse.ArgumentParser(description='Make rhyming *words*')
     parser.add_argument(
         "word",
-        help="A word to rhyme; if it is a filename, the program will iterate and create the rhyming words for each word in the file"
+        help="A word to rhyme; if it is a filename, the\
+         program will iterate and create the rhyming\
+         words for each word in the file"
     )
     parser.add_argument(
         "-o",
@@ -22,11 +24,11 @@ def get_args():
         default=sys.stdout,
         help="Output file (default: STDOUT)"
     )
-    
+
     args = parser.parse_args()
     if os.path.isfile(args.word):
         args.word = open(args.word).read().split()
-    
+
     return args
 
 
@@ -34,7 +36,7 @@ def break_word(word):
     """Return leading consonants (if any) and the rest of the word"""
     word = word.lower()
     conso = ''
-    
+
     i = 0
     while i < len(word):
         if word[i] not in 'aeiou':
@@ -46,12 +48,16 @@ def break_word(word):
 
 
 def replace(word):
-    """Replace the leading consonants with all the other consonants from the alphabets and the given consonant clusters"""
+    """Replace the leading consonants with all the other
+    consonants from the alphabets and the given
+    consonant clusters"""
     leading, other = break_word(word)
 
     consonants = [x for x in string.ascii_lowercase if x not in 'aeiou']
-    consonants.extend('bl br ch cl cr dr fl fr gl gr pl pr sc sh sk sl sm sn sp st sw th tr tw thw wh wr sch scr shr sph spl spr squ str thr'.split())
-    
+    consonants.extend('bl br ch cl cr dr fl fr gl gr pl \
+    pr sc sh sk sl sm sn sp st sw th tr tw thw wh wr sch\
+     scr shr sph spl spr squ str thr'.split())
+
     if not other: # if word is only consonants
         return f'Cannot rhyme "{word}"'
     return sorted([char + other for char in consonants if char != leading])
