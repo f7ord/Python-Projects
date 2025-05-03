@@ -32,6 +32,11 @@ def get_args():
          file and use them to expand the program's\
          consonants"
     )
+    parser.add_argument(
+        "-d",
+        action="store_true",
+        help="Only emit words that are found in the system dictionary"
+    )
 
     args = parser.parse_args()
     if os.path.isfile(args.word):
@@ -83,6 +88,11 @@ def replace(word):
     leading, other = break_word(word)
     if not other:  # if word is only consonants
         return f'Cannot rhyme "{word}"'
+    if get_args().d:
+        system_dict = open('dictionary.txt').read().split()
+        words = [char + other for char in consonants
+                 if char != leading and (char + other) in system_dict]
+        return sorted(words)
     return sorted([char + other for char in consonants if char != leading])
 
 
@@ -96,7 +106,8 @@ def test_break_word():
 
 
 def write_output(word, outfile=sys.stdout):
-    """Print the rhyming words (if can be done) to STDOUT or write them to the output file"""
+    """Print the rhyming words (if can be done) to \
+    STDOUT or write them to the output file"""
     if isinstance(replace(word), list):
         print('\n'.join(replace(word)), file=outfile)
     else:
