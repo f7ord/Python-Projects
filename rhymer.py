@@ -39,7 +39,7 @@ def break_word(word):
 
     i = 0
     while i < len(word):
-        if word[i] not in 'aeiou':
+        if word[i] not in 'aeiou' and word[i].isalpha():
             conso += word[i]
             i += 1
         else:
@@ -58,7 +58,7 @@ def replace(word):
     pr sc sh sk sl sm sn sp st sw th tr tw thw wh wr sch\
      scr shr sph spl spr squ str thr'.split())
 
-    if not other: # if word is only consonants
+    if not other:  # if word is only consonants
         return f'Cannot rhyme "{word}"'
     return sorted([char + other for char in consonants if char != leading])
 
@@ -69,7 +69,7 @@ def test_break_word():
     assert break_word('chair')[0] == 'ch'
     assert break_word('kljnbmt') == ('kljnbmt', '')
     assert break_word('') == ('', '')
-    assert break_word('123') == ('123','')
+    assert break_word('123') == ('123', '')
 
 
 def write_output(word, outfile=sys.stdout):
