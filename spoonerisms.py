@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
-# create spoonerisms, where the initial consonant sounds of adjacent words are switched, so you get 'blushing crow' instead of 'crushing blow'
+# create spoonerisms, where the initial consonant sounds
+# of adjacent words are switched, so you get 'blushing
+# crow' instead of 'crushing blow'
 
 import argparse
 import os
@@ -10,7 +12,8 @@ from typing import List
 def get_args():
     """Get the command-line arguments"""
     parser = argparse.ArgumentParser(
-        description="Spoonerisms: the initial consonant sounds of adjacent words are switched"
+        description='Spoonerisms: the initial consonant'
+        ' sounds of adjacent words are switched'
     )
     parser.add_argument(
         'words',
@@ -19,7 +22,7 @@ def get_args():
 
     args = parser.parse_args()
     if os.path.isfile(args.words):
-        args.words = open(args.words).read()
+        args.words = open(args.words, encoding='utf-8').read()
     args.words = args.words.split()
 
     return args
@@ -46,13 +49,21 @@ def startswithconsonant(word):
 
 
 def test_startswithconsonant():
-    assert startswithconsonant('initial') == False
-    assert startswithconsonant('commit') == True
-    assert startswithconsonant('Apple') == False
-    assert startswithconsonant('123Banana') == False
-    assert startswithconsonant('') == False
-    assert startswithconsonant('CHAIR') == True
+    """Test our functions"""
+    assert startswithconsonant('initial') is False
+    assert startswithconsonant('commit')
+    assert startswithconsonant('Apple') is False
+    assert startswithconsonant('123Banana') is False
+    assert startswithconsonant('') is False
+    assert startswithconsonant('CHAIR')
     assert swap_start('The', 'quick') == ('qe', 'thuick')
+    assert swap_start('hello', 'there') == ('thello', 'here')
+    assert break_word('apple') == ('', 'apple')
+    assert break_word('BANanaS') == ('b', 'ananas')
+    assert break_word('chair')[0] == 'ch'
+    assert break_word('kljnbmt') == ('kljnbmt', '')
+    assert break_word('') == ('', '')
+    assert break_word('123') == ('', '123')
 
 
 def swap_start(x, y):
@@ -65,7 +76,8 @@ def swap_start(x, y):
 
 
 def modify_words(words: List[str]):
-    """Go through `words` and switch the initial consonant sounds of adjacent words"""
+    """Go through `words` and switch the initial
+     consonant sounds of adjacent words"""
     result = []
     x, y = '', ''
 
@@ -88,7 +100,9 @@ def modify_words(words: List[str]):
                 y = ''
         # handle cases where an odd number of words
         # start with consonants
-        if word == words[-1] and x:# and not y:
+        # if we get to the end of the list and there's an x that has
+        # no y counterpart to swap initials with
+        if word == words[-1] and x and not y:
             result.insert(x_index, f'{x} ')
 
     return ''.join(result)
