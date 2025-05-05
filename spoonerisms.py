@@ -5,7 +5,6 @@
 import argparse
 import os
 from typing import List
-from rhymer import break_word
 
 
 def get_args():
@@ -26,51 +25,78 @@ def get_args():
     return args
 
 
-def get_words(words: List[str]):
-    """Return the words that start with consonants"""
-    return list(filter(lambda c: break_word(c)[0] and break_word(c)[0].isalpha(), words))
+def break_word(word):
+    """Return leading consonants (if any) and the rest of the word"""
+    word = word.lower()
+    conso = ''
+
+    i = 0
+    while i < len(word):
+        if word[i] not in 'aeiou' and word[i].isalpha():
+            conso += word[i]
+            i += 1
+        else:
+            break
+    return conso, word[i:]
 
 
-def test_get_words():
-    words = [
-        'initial', 'commit', 'Apple', '123Banana',
-        'CHAIR','']
-    assert get_words(words) == ['commit', 'CHAIR']
+def startswithconsonant(word):
+    """Return True if word starts with consonant(s)"""
+    return bool(break_word(word)[0])
+
+
+def test_startswithconsonant():
+    assert startswithconsonant('initial') == False
+    assert startswithconsonant('commit') == True
+    assert startswithconsonant('Apple') == False
+    assert startswithconsonant('123Banana') == False
+    assert startswithconsonant('') == False
+    assert startswithconsonant('CHAIR') == True
+    # assert startswithconsonant()
 
 
 def swap_start(x, y):
     """Switch the initial consonant sounds of x and y"""
-    x_pref = break_word(x)[0]
-    y_pref = break_word(y)[0]
+    x_pref = break_word(x)[0].lower()
+    y_pref = break_word(y)[0].lower()
     x = x.replace(x_pref, y_pref, 1)
     y = y.replace(y_pref, x_pref, 1)
     return x, y
 
 
-def main():
-    args = get_args()
-    words = args.words
-    cons_word = get_words(words)
-
+def modify_words(words: List[str]):
+    """Go through `words` and switch the initial consonant sounds of adjacent words"""
     result = []
     x, y = '', ''
+
     for word in words:
-        if word not in cons_word:
+        if not startswithconsonant(word):
             result.insert(words.index(word), f'{word} ')
         else:
             if not x:
                 x = word
+                x_index = words.index(x)
             elif not y:
                 y = word
-            if x and y:
-                x_index = words.index(x)
                 y_index = words.index(y)
+            if x and y:
                 x, y = swap_start(x, y)
                 result.insert(x_index, f'{x} ')
                 result.insert(y_index, f'{y} ')
+                # resetting x and y
                 x = ''
                 y = ''
-    print(''.join(result))
+        # handle cases where an odd number of words
+        # start with consonants
+        if word == words[-1] and x:# and not y:
+            result.insert(x_index, f'{x} ')
+
+    return ''.join(result)
+
+
+def main():
+    args = get_args()
+    print(modify_words(args.words))
 
 
 if __name__ == '__main__':
