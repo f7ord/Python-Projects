@@ -52,15 +52,15 @@ def test_startswithconsonant():
     assert startswithconsonant('123Banana') == False
     assert startswithconsonant('') == False
     assert startswithconsonant('CHAIR') == True
-    # assert startswithconsonant()
+    assert swap_start('The', 'quick') == ('qe', 'thuick')
 
 
 def swap_start(x, y):
     """Switch the initial consonant sounds of x and y"""
-    x_pref = break_word(x)[0].lower()
-    y_pref = break_word(y)[0].lower()
-    x = x.replace(x_pref, y_pref, 1)
-    y = y.replace(y_pref, x_pref, 1)
+    x_pref = break_word(x)[0]
+    y_pref = break_word(y)[0]
+    x = x.lower().replace(x_pref, y_pref, 1)
+    y = y.lower().replace(y_pref, x_pref, 1)
     return x, y
 
 
