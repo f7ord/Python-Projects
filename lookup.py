@@ -26,7 +26,12 @@ def get_args():
         action="store_true",
         help="Match the case (make the search case-sensitive)"
     )
-    
+    parser.add_argument(
+        "-e",
+        action="store_true",
+        help="Output a message if no line starts with any of `letters`"
+    )
+
     return parser.parse_args()
 
 
@@ -37,7 +42,7 @@ def format_letters_output(letters):
     elif len(letters) == 2:
         return ' and '.join(letters)
     else:
-        return ', '.join(letters[:-1]) + f' and {letters[-1]}'
+        return ', '.join(letters[:-1]) + f' or {letters[-1]}'
 
 
 def main():
@@ -59,7 +64,7 @@ def main():
             if line.lower().startswith(letters):
                 print(line, end='')
                 found_line = 1
-    if not found_line:
+    if not found_line and args.e:
         print(f"Sorry we didn't find any lines that start with {format_letters_output(args.letter)}")
 
 
