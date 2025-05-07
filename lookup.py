@@ -3,6 +3,7 @@
 """Lookup"""
 
 import argparse
+import sys
 
 
 def get_args():
@@ -14,6 +15,7 @@ def get_args():
     )
     parser.add_argument(
         "file",
+        metavar="FILE",
         type=argparse.FileType('rt'),
         help="Input file",
     )
@@ -33,6 +35,13 @@ def get_args():
         action="store_true",
         help="Output a message if no line starts with any of `letters`"
     )
+    parser.add_argument(
+        "-o",
+        "--outfile",
+        type=argparse.FileType('wt'),
+        default=sys.stdout,
+        help="Outfile (default: STDOUT)"
+    )
 
     return parser.parse_args()
 
@@ -49,6 +58,7 @@ def format_letters_output(letters):
 def main():
     args = get_args()
     matchcase = args.matchcase
+    out = args.outfile
     found_line = 0
 
     letters = tuple(args.letter) if matchcase else tuple(x.lower() for x in args.letter)
@@ -56,11 +66,11 @@ def main():
     for line in args.file:
         if matchcase:
             if line.startswith(letters):
-                print(line, end='')
+                print(line, end='', file=out)
                 found_line = 1
         else:
             if line.lower().startswith(letters):
-                print(line, end='')
+                print(line, end='', file=out)
                 found_line = 1
     if not found_line and args.e:
         print("Sorry we didn't find any lines that start with "
