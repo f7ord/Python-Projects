@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+"""Lookup"""
+
 import argparse
 
 
@@ -11,14 +13,14 @@ def get_args():
         "case-insensitive fashion"
     )
     parser.add_argument(
-        "letter",
-        nargs="+",
-        help="Letter(s)"
-    )
-    parser.add_argument(
         "file",
         type=argparse.FileType('rt'),
         help="Input file",
+    )
+    parser.add_argument(
+        "letter",
+        nargs="+",
+        help="Letter(s)"
     )
     parser.add_argument(
         "-mc",
@@ -36,13 +38,12 @@ def get_args():
 
 
 def format_letters_output(letters):
-    """Format"""
+    """Format the output of letters"""
     if len(letters) == 1:
         return letters[0]
-    elif len(letters) == 2:
+    if len(letters) == 2:
         return ' and '.join(letters)
-    else:
-        return ', '.join(letters[:-1]) + f' or {letters[-1]}'
+    return ', '.join(letters[:-1]) + f' or {letters[-1]}'
 
 
 def main():
@@ -50,10 +51,7 @@ def main():
     matchcase = args.matchcase
     found_line = 0
 
-    if matchcase:
-        letters = tuple(args.letter)
-    else:
-        letters = tuple(x.lower() for x in args.letter)
+    letters = tuple(args.letter) if matchcase else tuple(x.lower() for x in args.letter)
 
     for line in args.file:
         if matchcase:
@@ -65,7 +63,8 @@ def main():
                 print(line, end='')
                 found_line = 1
     if not found_line and args.e:
-        print(f"Sorry we didn't find any lines that start with {format_letters_output(args.letter)}")
+        print("Sorry we didn't find any lines that start with "
+              f"{format_letters_output(args.letter)}")
 
 
 if __name__ == "__main__":
