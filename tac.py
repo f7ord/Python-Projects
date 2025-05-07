@@ -1,4 +1,4 @@
-#!/usr/bin/env python3 
+#!/usr/bin/env python3
 
 # print the lines of a file in reverse
 
@@ -19,7 +19,6 @@ def get_args():
         type=argparse.FileType('rt'),
         help='Input file(s) (default: STDIN)'
     )
-
     return parser.parse_args()
 
 
@@ -28,11 +27,9 @@ def main():
 
     for file in args.file:
         lines = []
-        # capturing the lines
         for line in file:
             lines = [line.rstrip()] + lines
-        # printing the lines
-        print('\n'.join(lines)) 
+        print('\n'.join(lines))
 
 
 if __name__ == '__main__':
