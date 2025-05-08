@@ -55,7 +55,7 @@ def main():
                 # we assume that if a line contains only whitespace chars, it is a blank line
                 if len(line) > 1:
                     sys.stdout.write(f"{count} ".rjust(7)+' ')
-                    count += 1 
+                    count += 1
             if number:
                 sys.stdout.write(f"{count} ".rjust(7)+' ')
                 count += 1
