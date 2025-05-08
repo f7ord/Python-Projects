@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 
-# the program takes some text, given as a single positional argument, and replaces all the vowels in the text with the given --vowel option (default: a)
+"""
+the program takes some text, given as a single positional argument, and
+replaces all the vowels in the text with the given --vowel option (default: a)
+"""
 
 import argparse
 import os
@@ -26,13 +29,14 @@ def get_args():
         "--collapse",
         "-c",
         action="store_true",
-        help="Collapse multiple adjacent vowels into a single substituted value. e.g., 'quick' becomes 'qack' and not 'qaack'"
+        help="Collapse multiple adjacent vowels into a single "
+        "substituted value. e.g., 'quick' becomes 'qack' and not 'qaack'"
     )
 
     args = parser.parse_args()
     for i, f in enumerate(args.text):
         if os.path.isfile(f):
-            args.text[i] = open(f) 
+            args.text[i] = open(f)
         else:
             args.text[i] = io.StringIO(f + "\n")
 
@@ -57,7 +61,7 @@ def main():
                     elif char not in vowels:
                         result += char
                 print(result, end="")
-        f.close()                
+        f.close()
 
 if __name__ == "__main__":
     main()
