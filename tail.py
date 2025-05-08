@@ -48,7 +48,7 @@ def main():
     files = args.file
     start_line = True if args.lines[0] == '+' else False
     n = int(args.lines)
-   
+
     for file in files:
         if not args.quiet and len(files) > 1:
             print(f"==> {file.name} <==")
@@ -59,10 +59,10 @@ def main():
         else:
             for line in lines[-abs(n):]:
                 print(line.rstrip())
-        
+
         print() if file.name != files[-1].name else ''
         file.close()
-        
+
 
 if __name__ == "__main__":
     main()
