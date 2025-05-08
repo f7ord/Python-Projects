@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 
-# print “You said: ” and the original text, followed by “I heard: ” with a modified version of the message
+"""
+print “You said: ” and the original text, followed by “I heard: ”
+with a modified version of the message
+"""
 
 import argparse
-import io
 import os
 import random
 import string
@@ -51,13 +53,13 @@ def get_args():
     )
 
     args = parser.parse_args()
-    
+
     if os.path.isfile(args.text):
         args.text = open(args.text).read().rstrip()
-    
+
     if not 0 <= args.mutations <= 1:
         parser.error(f"--mutations *{args.mutations}* must be `0 <= mutations <= 1`")
-    
+
     args.output = open(args.output, 'w') if args.output else sys.stdout
 
     return args
@@ -70,12 +72,12 @@ def main():
         Return the mutated version of the given string"""
         result = text
         chars = string.ascii_letters if args.chars else string.ascii_letters + string.punctuation
-        
+
         for i in random.sample(range(len(text)), n):
-            rep_char = random.choice(chars.replace(result[i], '')) # ensures that rep_char != text[i]
+            rep_char = random.choice(chars.replace(result[i], '')) # ensures rep_char != text[i]
             result = result[:i] + rep_char + result[i+1:]
         return result
-    
+
     args = get_args()
     text = args.text
     num_mutations = round(len(text.split()) * args.mutations) if args.words else round(len(text) * args.mutations)
