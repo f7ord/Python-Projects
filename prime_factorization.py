@@ -27,18 +27,23 @@ def factorization(n: int):
     """Return the prime factorization of n"""
     factors = []
 
-    for i in range(2, n+1):
-        if n % i == 0:
+    for i in range(2, int(n**0.5)+1):
+        if not n % i:
             cnt = 0
-            while n % i == 0:
+            # print(f'{i:4}|{n}<== new i')
+            while not n % i:
+                # print(f'{i:4}|{n//i}')
                 n = n//i
                 cnt += 1
             factors.append((i, cnt))
+    if n != 1:
+        factors.append((n, 1))
     return factors
 
 
 def main():
-    print(factorization(get_args().num))
+    num = get_args().num
+    print(factorization(num))
 
 
 if __name__ == '__main__':
