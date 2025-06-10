@@ -34,7 +34,7 @@ def main():
 
     if len(nums) > 1:
         for num in nums:
-            print(f'{num}:', factors(num))
+            print(f'{num: 4}:', factors(num))
     else:
         print(factors(nums[0]))
 
