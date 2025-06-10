@@ -12,6 +12,7 @@ def get_args():
     )
     parser.add_argument(
         'num',
+        nargs='+',
         type=int,
         help='The number, an integer'
     )
@@ -29,7 +30,13 @@ def factors(num: int):
 
 
 def main():
-    print(factors(get_args().num))
+    nums = get_args().num
+
+    if len(nums) > 1:
+        for num in nums:
+            print(f'{num}:', factors(num))
+    else:
+        print(factors(nums[0]))
 
 
 if __name__ == '__main__':
