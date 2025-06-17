@@ -51,7 +51,7 @@ def format_letters_output(letters):
     if len(letters) == 1:
         return letters[0]
     if len(letters) == 2:
-        return ' and '.join(letters)
+        return ' or '.join(letters)
     return ', '.join(letters[:-1]) + f' or {letters[-1]}'
 
 
